@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+jinja2
+python-jose[cryptography]
+passlib[bcrypt]
+langchain
+langchain_community
+langchain_groq
+python-multipart
+bcrypt
+itsdangerous
+asyncpg
+psycopg2

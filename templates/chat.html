@@ -1,0 +1,808 @@
+{% extends "base.html" %}
+{% block title %}Enterprise Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <!-- Sidebar with Chatbot -->
+    <div class="chat-section">
+        <div class="chat-header">
+            <h1>Chat Assistant</h1>
+            <span class="status-indicator">Active</span>
+        </div>
+        <div class="chat-body">
+            <div id="chat-messages" class="chat-messages">
+                <div class="timeline">Today</div>
+            </div>
+            <form id="chat-form" class="chat-input-form">
+                <div class="input-wrapper">
+                    <input type="text" id="user-input" placeholder="Type your message..." />
+                    <button type="submit" class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Section -->
+    <div class="dashboard-section">
+        <header class="dashboard-header">
+            <h2>Welcome, {{ user.name }}</h2>
+            <div class="header-actions">
+                <a href="/profile" class="action-button" title="Profile">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+                <a href="/settings" class="action-button" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <a href="/logout" class="action-button" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </header>
+        <div class="dashboard-content">
+
+        
+            <!-- Recent Views -->
+            <div class="recent-activity">
+                <h3>Recently Viewed Products</h3>
+                {% if user_interaction.view %}
+                <table class="interaction-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in user_interaction.view %}
+                        <tr>
+                            <td>{{ product.product_name }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>{{ product.current_price }}</td>
+                            <td><a href="{{ product.product_link }}" target="_blank">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No products viewed recently.</p>
+                {% endif %}
+            </div>
+        
+            <!-- Wishlist -->
+            <div class="wishlist">
+                <h3>Wishlist</h3>
+                {% if user_interaction.wishlist %}
+                <table class="interaction-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in user_interaction.wishlist %}
+                        <tr>
+                            <td>{{ product.product_name }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>${{ product.current_price }}</td>
+                            <td><a href="{{ product.product_link }}" target="_blank">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No items in your wishlist.</p>
+                {% endif %}
+            </div>
+        
+            <!-- Cart -->
+            <div class="cart">
+                <h3>Cart</h3>
+                {% if user_interaction.cart %}
+                <table class="interaction-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in user_interaction.cart %}
+                        <tr>
+                            <td>{{ product.product_name }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>${{ product.current_price }}</td>
+                            <td><a href="{{ product.product_link }}" target="_blank">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Your cart is empty.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+<style>
+
+    /* Modern Enterprise Dashboard Styling */
+:root {
+    --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    --primary-dark: #1e3c72;
+    --primary-light: #2a5298;
+    --secondary-color: #f8f9fe;
+    --text-primary: #2c3e50;
+    --text-secondary: #606f7b;
+    --shadow-soft: 0 10px 30px rgba(46, 54, 80, 0.05);
+    --shadow-strong: 0 15px 35px rgba(46, 54, 80, 0.1);
+}
+
+/* Dashboard Layout */
+.dashboard-wrapper {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 24px;
+    padding: 24px;
+    background: var(--secondary-color);
+    min-height: 100vh;
+}
+
+/* Chat Section */
+.chat-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-strong);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 48px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-header {
+    background: var(--primary-gradient);
+    padding: 20px;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h1 {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.status-indicator {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-indicator::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.chat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 24px;
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 12px;
+    scroll-behavior: smooth;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(46, 54, 80, 0.1);
+    border-radius: 3px;
+}
+
+.timeline {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 24px 0;
+    position: relative;
+}
+
+.timeline::before,
+.timeline::after {
+    content: "";
+    height: 1px;
+    background: rgba(46, 54, 80, 0.1);
+    width: 30%;
+    position: absolute;
+    top: 50%;
+}
+
+.timeline::before {
+    left: 0;
+}
+
+.timeline::after {
+    right: 0;
+}
+
+.message {
+    max-width: 85%;
+    margin-bottom: 16px;
+    position: relative;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    animation: messageSlide 0.3s ease-out;
+}
+
+@keyframes messageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    background: var(--primary-gradient);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+/* Loading Animation Styles */
+.loading-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 8px;
+}
+
+.loading-dots span {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-light);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { 
+        transform: scale(0);
+        opacity: 0.3;
+    }
+    40% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Message Markdown Styling */
+message.assistant {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.message.assistant a,
+.message.assistant [href] {
+    color: var(--primary-light);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: rgba(42, 82, 152, 0.1);
+}
+
+.message.assistant a:hover,
+.message.assistant [href]:hover {
+    background: var(--primary-gradient);
+    color: white;
+    text-decoration: none;
+}
+
+.message.assistant strong,
+.message.assistant b {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+/* Price Formatting */
+.message.assistant {
+    font-size: 0.95rem;
+}
+
+.message.assistant strong:contains('Price:'),
+.message.assistant b:contains('Price:') {
+    color: #10B981;
+}
+
+.chat-input-form {
+    margin-top: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f8f9fe;
+    border-radius: 12px;
+    border: 1px solid rgba(46, 54, 80, 0.08);
+    transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+}
+
+.input-wrapper input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--text-secondary);
+}
+
+.send-button {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.send-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(30, 60, 114, 0.2);
+}
+
+.send-button i {
+    font-size: 1rem;
+}
+
+/* Dashboard Content Section */
+.dashboard-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-strong);
+    padding: 24px;
+}
+
+.dashboard-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(46, 54, 80, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-header h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.header-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.action-button {
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    font-size: 1.25rem;
+}
+
+.action-button:hover {
+    color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    display: grid;
+    gap: 32px;
+}
+
+.recent-activity,
+.wishlist,
+.cart {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    border: 1px solid rgba(46, 54, 80, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.recent-activity:hover,
+.wishlist:hover,
+.cart:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-strong);
+}
+
+.recent-activity h3,
+.wishlist h3,
+.cart h3 {
+    padding: 20px 24px;
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(46, 54, 80, 0.08);
+    background: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.recent-activity h3::before {
+    content: "\f017";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--primary-light);
+}
+
+.wishlist h3::before {
+    content: "\f004";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--primary-light);
+}
+
+.cart h3::before {
+    content: "\f07a";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--primary-light);
+}
+
+.interaction-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
+}
+
+.interaction-table thead {
+    background: var(--primary-gradient);
+}
+
+.interaction-table th {
+    padding: 16px 24px;
+    text-align: left;
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: none;
+}
+
+.interaction-table th:first-child {
+    padding-left: 24px;
+}
+
+.interaction-table th:last-child {
+    padding-right: 24px;
+}
+
+.interaction-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(46, 54, 80, 0.08);
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    transition: background-color 0.2s ease;
+}
+
+.interaction-table tr:last-child td {
+    border-bottom: none;
+}
+
+.interaction-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.interaction-table tbody tr:hover {
+    background-color: rgba(46, 54, 80, 0.02);
+}
+
+.interaction-table td:first-child {
+    font-weight: 500;
+}
+
+.interaction-table td a {
+    color: var(--primary-light);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(42, 82, 152, 0.1);
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.interaction-table td a:hover {
+    background: var(--primary-gradient);
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Empty State Styling */
+.recent-activity p,
+.wishlist p,
+.cart p {
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    background: var(--secondary-color);
+    margin: 0;
+}
+
+/* Price Column Styling */
+.interaction-table td:nth-child(4) {
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #10B981;
+    font-weight: 500;
+}
+
+/* Category Badge Styling */
+.interaction-table td:nth-child(3) {
+    text-transform: capitalize;
+}
+
+/* Description Column Styling */
+.interaction-table td:nth-child(2) {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-section {
+        height: 600px;
+    }
+
+    .interaction-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .interaction-table thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-wrapper {
+        padding: 16px;
+    }
+
+    .message {
+        max-width: 90%;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+}
+</style>
+            
+        
+
+<script>
+window.onload = async () => {
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: ''})
+        });
+        if (!response.ok) {
+            window.location.href = '/login';
+        }
+    } catch {
+        window.location.href = '/login';
+    }
+};
+document.getElementById('chat-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('user-input');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.innerHTML += `
+        <div class="message user">
+            ${escapeHtml(message)}
+        </div>
+    `;
+    
+    // Add loading message
+    const loadingMessageId = 'loading-' + Date.now();
+    chatMessages.innerHTML += `
+        <div class="message assistant loading" id="${loadingMessageId}">
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    `;
+    
+    input.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message})
+        });
+        
+        if (!response.ok) {
+            window.location.href = '/login';
+            return;
+        }
+        
+        const data = await response.json();
+        const formattedResponse = formatProductResponse(data.response);
+        
+        // Remove loading message and add response
+        const loadingMessage = document.getElementById(loadingMessageId);
+        if (loadingMessage) {
+            loadingMessage.outerHTML = `
+                <div class="message assistant">
+                    ${formattedResponse}
+                </div>
+            `;
+        }
+        
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    } catch (error) {
+        console.error('Error:', error);
+        const loadingMessage = document.getElementById(loadingMessageId);
+        if (loadingMessage) {
+            loadingMessage.outerHTML = `
+                <div class="message assistant">
+                    Sorry, there was an error processing your request.
+                </div>
+            `;
+        }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});
+function formatProductResponse(response) {
+    // Create a new DOMParser instance
+    const parser = new DOMParser();
+
+    // Parse the response as HTML
+    const doc = parser.parseFromString(response, 'text/html');
+
+    // Find all <strong> tags and replace them with **
+    const strongTags = doc.getElementsByTagName('strong');
+    while (strongTags.length > 0) {
+        const strongTag = strongTags[0];
+        const textNode = document.createTextNode(`**${strongTag.textContent}**`);
+        strongTag.parentNode.replaceChild(textNode, strongTag);
+    }
+
+    // Find all <a> tags and replace them with [text](url)
+    const aTags = doc.getElementsByTagName('a');
+    while (aTags.length > 0) {
+        const aTag = aTags[0];
+        const href = aTag.getAttribute('href');
+        const textNode = document.createTextNode(`[${aTag.textContent}](${href})`);
+        aTag.parentNode.replaceChild(textNode, aTag);
+    }
+
+    // Get the modified HTML content
+    const modifiedResponse = doc.body.innerHTML;
+
+    // Remove any <br> tags
+    const finalResponse = modifiedResponse.replace(/<br\s*\/?>/gi, '\n');
+
+    return finalResponse;
+}
+
+
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+const input = document.getElementById('user-input');
+input.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight) + 'px';
+});
+</script>
+{% endblock %}
