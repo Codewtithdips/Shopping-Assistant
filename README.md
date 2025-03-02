@@ -45,3 +45,35 @@ A quick demonstration of ShopSense features including:
 - Templating Engine: 🏗 Jinja2 – Renders structured chatbot responses for better readability.
 - Environment Management: 🔐 dotenv – Manages environment variables securely.
 - Authentication: 🔑 FastAPI Auth – Implements secure session-based login/logout functionalities.
+
+## 🔧 Setup and Installation
+
+1. Clone the repository:
+   ```sh
+   https://github.com/Codewtithdips/Shopping-Assistant.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd Shopping-Assistant
+   ```
+3. Install the required dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
+4. Set up environment variables
+   - ENTER YOUR API KEY
+   - DATABASE NAME , PASSWORD
+  
+5. Initialize the database
+
+6. Run the application
+ ```sh
+   uvicorn main:app --reload
+   ```
+7. Access the application
+   ```sh
+   Navigate to http://127.0.0.1:8000/login to reach the login page
+   ```
+
+   
+   
