@@ -37,8 +37,11 @@ A quick demonstration of ShopSense features including:
 
 
 # 🚀 Technology Stack
-- Backend: FastAPI
-- Database: PostgreSQL
-- LLM Integration: LangChain with Groq (llama-3.3-70b-versatile model)
-- Frontend: Jinja2 Templates
-- Authentication: Session-based authentication
+- Backend Framework: 🚀 FastAPI – High-performance, asynchronous web framework for API development.
+- Database: 🛢 PostgreSQL – Relational database to store user interactions, product views, and applied offers.
+- Database Querying: ⚡ AsyncPG – Asynchronous PostgreSQL client for efficient query execution.
+- AI & LLM Integration: 🤖 LangChain – Used for dynamically generating SQL queries and enhancing chatbot capabilities.
+- Large Language Model (LLM): 🔗 Groq Llama-3.3-70B – Powers the AI chatbot to generate intelligent and context-aware responses.
+- Templating Engine: 🏗 Jinja2 – Renders structured chatbot responses for better readability.
+- Environment Management: 🔐 dotenv – Manages environment variables securely.
+- Authentication: 🔑 FastAPI Auth – Implements secure session-based login/logout functionalities.
