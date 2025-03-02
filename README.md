@@ -7,5 +7,5 @@ ShopSense is an AI-driven shopping assistant designed to enhance user experience
 
 ## 🎥 Demo
 
-[![Watch the video](https://img.youtube.com/vi/nDdps-DpMRo/maxresdefault.jpg)](https://youtu.be/nDdps-DpMRo)
+[![Watch the video](https://img.youtube.com/vi/jmplmsxggxo/maxresdefault.jpg)](https://youtu.be/nDdps-DpMRo)
 
