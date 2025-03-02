@@ -35,3 +35,10 @@ A quick demonstration of ShopSense features including:
 
 - Reusable LLM Chains & Prompts:Enhances chatbot accuracy by refining AI-generated responses.Improves contextual understanding of user queries.
 
+
+# 🚀 Technology Stack
+- Backend: FastAPI
+- Database: PostgreSQL
+- LLM Integration: LangChain with Groq (llama-3.3-70b-versatile model)
+- Frontend: Jinja2 Templates
+- Authentication: Session-based authentication
