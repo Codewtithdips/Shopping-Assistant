@@ -16,3 +16,22 @@ A quick demonstration of ShopSense features including:
 - Credit card recommendations
 - Real-time price tracking
 
+##Features of ShopSense: AI-Powered Shopping Assistant
+##AI-Powered Shopping Chatbot
+
+-Retrieves user-specific shopping interactions (product views, wishlists, applied offers).Generates intelligent, context-aware responses using Groq Llama-3.3-70B.
+
+-FastAPI-Based Backend: High-performance, asynchronous API development for seamless request handling.Uses Jinja2 for templating and structured responses.
+
+-PostgreSQL Database Integration: Stores user interactions efficiently for real-time recommendations.Ensures data persistence and optimized query performance.
+
+-Asynchronous Query Execution (AsyncPG): Improves database interaction speed by handling multiple queries simultaneously.Reduces response time for a smoother user experience.
+
+-Dynamic SQL Query Generation (LangChain): Uses LangChain SQLDatabase utilities to securely generate and execute SQL queries based on user input.Enhances flexibility in retrieving shopping-related data.
+
+-Secure User Authentication (FastAPI Auth): Implements session-based authentication for secure login/logout.Ensures only authenticated users can access personalized recommendations.
+
+-Custom Chatbot Response Generator: Formats chatbot replies for improved readability and user experience.Ensures structured responses based on retrieved shopping data.
+
+-Reusable LLM Chains & Prompts:Enhances chatbot accuracy by refining AI-generated responses.Improves contextual understanding of user queries.
+
