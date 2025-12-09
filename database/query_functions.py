@@ -10,7 +10,7 @@ db_user = os.getenv("db_user")
 db_password = os.getenv("db_password")
 db_name = os.getenv("db_name")
 db_host = os.getenv("db_host")
-port = 5433
+port = 5432
 
 
 async def get_user_interactions_by_email(email: str) -> dict:

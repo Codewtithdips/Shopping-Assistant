@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
+import os
+app.add_middleware(SessionMiddleware, secret_key=os.getenv("SESSION_SECRET"))
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(auth.router)
