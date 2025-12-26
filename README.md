@@ -46,6 +46,63 @@ A quick demonstration of ShopSense features including:
 - Environment Management: 🔐 dotenv – Manages environment variables securely.
 - Authentication: 🔑 FastAPI Auth – Implements secure session-based login/logout functionalities.
 
+### Database Schema
+
+```sql
+CREATE TABLE Users (
+   user_id INT PRIMARY KEY,
+   email VARCHAR(255),
+   name VARCHAR(100),
+   created_at TIMESTAMP
+);
+
+CREATE TABLE Products (
+   product_id INT PRIMARY KEY,
+   product_link TEXT,
+   website_company_name VARCHAR(100),
+   prodct_name VARCHAR(255),
+   description TEXT,
+   category VARCHAR(100),
+   current_price DECIMAL(10,2),
+   original_price DECIMAL(10,2),
+   discount_percentage DECIMAL(5,2),
+   brand VARCHAR(100),
+   availability_status BOOLEAN,
+   last_updated TIMESTAMP
+);
+
+CREATE TABLE UserProductInteractions (
+   interaction_id INT PRIMARY KEY,
+   user_id INT,
+   product_id INT,
+   interaction_type VARCHAR(100),
+   interaction_date TIMESTAMP,
+   FOREIGN KEY (user_id) REFERENCES Users(user_id),
+   FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+CREATE TABLE CreditCards (
+   card_id INT PRIMARY KEY,
+   card_name VARCHAR(100),
+   bank_name VARCHAR(100),
+   reward_rate DECIMAL(4,2),
+   cashback_categories JSON,
+   annual_fee DECIMAL(10,2),
+   special_offers TEXT
+);
+
+CREATE TABLE ProductCardBenefits (
+   benefit_id INT PRIMARY KEY,
+   product_id INT,
+   card_id INT,
+   benefit_type VARCHAR(50),
+   benefit_value DECIMAL(5,2),
+   valid_until DATE,
+   FOREIGN KEY (product_id) REFERENCES Products(product_id),
+   FOREIGN KEY (card_id) REFERENCES CreditCards(card_id)
+);
+```
+
 ## 🔧 Setup and Installation
 
 1. Clone the repository:
